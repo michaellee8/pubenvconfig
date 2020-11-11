@@ -55,3 +55,7 @@ let g:ycm_gopls_args = ['-remote=auto']
 
 map <C-n> :NERDTreeToggle<CR>
 
+" code style settings
+
+set colorcolumn=80
+
