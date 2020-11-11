@@ -36,6 +36,7 @@ either intentional or careless.
 - `tput` / `ncurses-utilities`
 - `wget` / `curl`
 - `watchman`
+- `pandoc` + `texlive` / `texlive-full`
 
 - `vim-nox` / `vim-python` / `vim-gtk3`
 - `neovim`
