@@ -9,7 +9,7 @@ portable and progressive, which means that I am always trying to extend editor/t
 configuration, so that things will still more or kess work for 
 me even in an environment that I don't get these setup. I am 
 also trying to utilize trusted and managed components instead of 
-components pulled from some random guy's github or npm, which 
+components pulled from some random guy's github or npm, which 
 may not be well maintained or even contain security issues, 
 either intentional or careless. 
 
@@ -22,7 +22,7 @@ either intentional or careless.
 - `yarn`
 - `python3`
 - `python`
-- `rust` / `rustup`
+- `rust` / [`rustup`](curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh)
 - `openjdk-8-jdk` / `openjdk-11-jdk`
 - `dart` / `flutter`
 - `google-cloud-sdk`
@@ -58,6 +58,14 @@ cd ~/.vim/bundle/YouCompleteMe
 ./install.py --clangd-completer --rust-completer \
   --ts-completer --go-completer --java-completer
 # --cs-completer for C# support
+
+# Use this if you got an error mentioning npm cannot find tsserver
+cd ~/.vim/bundle/YouCompleteMe/third_party/ycmd
+npm install -g --prefix third_party/tsserver typescript
+# Also try not to use NodeSource's distribution since it does not provides a 
+# nodejs (node only) command for some reason and therefore breaks the install 
+script for tsserver. It is tested that Ubuntu 20.10's native nodejs npm yarn 
+package is more than enough.
 ```
 
 ## Tmux Setup
@@ -67,6 +75,18 @@ tmux
 # Crtl+B I to start installing
 # Crtl+B U to start updating
 # Crtl+B Alt u to start tidying
+```
+
+### Commands for installation
+
+```bash
+# Rustup (Not usable on Termux)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Flutter
+git clone https://github.com/flutter/flutter.git -b stable --depth 1
+export PATH="$PATH:`pwd`/flutter/bin"
+flutter precache
 ```
 
 ## Neovim Setup
