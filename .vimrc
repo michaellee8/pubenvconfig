@@ -33,6 +33,8 @@ Plugin 'airblade/vim-gitgutter'
 
 Plugin 'preservim/nerdcommenter'
 
+Plugin 'christoomey/vim-tmux-navigator'
+
 " Plugin 'tpope/vim-commentary'
 
 
