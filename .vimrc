@@ -69,3 +69,5 @@ set mouse=a
 " NERDTree settings
 
 let NERDTreeShowHidden=1
+
+set number relativenumber
