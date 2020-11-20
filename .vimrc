@@ -72,3 +72,5 @@ set mouse=a
 let NERDTreeShowHidden=1
 
 set number relativenumber
+
+set filetype
