@@ -42,6 +42,8 @@ either intentional or careless.
 - `neovim`
 - `vifm`
 
+- `universal-ctags`
+- `gotags`
 
 ## Vim/Neovim setup
 
