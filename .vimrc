@@ -37,6 +37,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 " Plugin 'tpope/vim-commentary'
 
+Plugin 'jiangmiao/auto-pairs'
+
 
 
 call vundle#end()            " required
