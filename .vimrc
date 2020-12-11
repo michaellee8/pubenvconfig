@@ -35,6 +35,8 @@ Plugin 'preservim/nerdcommenter'
 
 Plugin 'christoomey/vim-tmux-navigator'
 
+Plugin 'xolox/vim-session'
+
 " Plugin 'tpope/vim-commentary'
 
 Plugin 'jiangmiao/auto-pairs'
@@ -108,3 +110,4 @@ let NERDTreeShowHidden=1
 set number relativenumber
 
 set filetype
+
