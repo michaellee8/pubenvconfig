@@ -37,6 +37,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 Plugin 'xolox/vim-session'
 
+Plugin 'xolox/vim-misc'
+
 " Plugin 'tpope/vim-commentary'
 
 Plugin 'jiangmiao/auto-pairs'
