@@ -47,6 +47,8 @@ Plugin 'preservim/tagbar'
 
 Plugin 'Yggdroot/indentLine'
 
+Plugin 'dart-lang/dart-vim-plugin'
+
 call vundle#end()            " required
 
 filetype plugin indent on    " required
