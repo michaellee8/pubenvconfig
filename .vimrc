@@ -63,6 +63,14 @@ let g:go_referrers_mode = 'gopls'
 
 let g:ycm_gopls_args = ['-remote=auto']
 
+let g:ycm_language_server = [
+  \   {
+  \     'name': 'dart',
+  \     'cmdline': ['dart', '/usr/lib/dart/bin/snapshots/analysis_server.dart.snapshot', '--lsp'],
+  \     'filetypes': [ 'dart' ],
+  \   },
+  \ ]
+
 " custom key bindings
 
 nmap <F8> :TagbarToggle<CR>

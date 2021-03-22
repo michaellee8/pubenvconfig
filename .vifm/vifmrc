@@ -1,5 +1,4 @@
 set dotfiles
 " set syncregs=general
-
-" set vicmd=vim
 set vicmd=nvim
+
