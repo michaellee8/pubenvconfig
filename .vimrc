@@ -123,3 +123,5 @@ set number relativenumber
 
 set filetype
 
+"status line full file path
+set statusline+=%F
