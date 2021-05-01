@@ -123,5 +123,17 @@ set number relativenumber
 
 set filetype
 
-"status line full file path
+" status line full file path
 set statusline+=%F
+
+" YouCompleteMe key bindings
+nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>gd :YcmCompleter GoTo<CR>
+
+" nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+" nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
