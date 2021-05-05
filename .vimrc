@@ -21,7 +21,6 @@ Plugin 'junegunn/fzf.vim'
 
 " Plugin 'mg979/vim-visual-multi'
 
-Plugin 'itchyny/lightline.vim'
 
 Plugin 'tpope/vim-eunuch'
 
@@ -48,6 +47,9 @@ Plugin 'preservim/tagbar'
 Plugin 'Yggdroot/indentLine'
 
 Plugin 'dart-lang/dart-vim-plugin'
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 call vundle#end()            " required
 
@@ -126,7 +128,7 @@ set filetype
 " status line full file path
 set statusline+=%F
 
-" YouCompleteMe key bindings
+" YouCompleteMe key bindings and settings
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gd :YcmCompleter GoTo<CR>
 
@@ -137,3 +139,12 @@ nnoremap <leader>gd :YcmCompleter GoTo<CR>
 " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
 " nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" session.vim settings
+let g:session_default_to_last = 1
+
+
