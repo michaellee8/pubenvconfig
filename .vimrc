@@ -17,6 +17,7 @@ Plugin 'ycm-core/YouCompleteMe'
 
 Plugin 'preservim/nerdtree'
 
+Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 " Plugin 'mg979/vim-visual-multi'
