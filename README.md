@@ -41,9 +41,12 @@ either intentional or careless.
 - `vim-nox` / `vim-python` / `vim-gtk3`
 - `neovim`
 - `vifm`
+- `tmux`
+- `tmuxp`
 
 - `universal-ctags`
 - `gotags`
+
 
 ## Vim/Neovim setup
 
