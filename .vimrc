@@ -160,4 +160,20 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 " session.vim settings
 " let g:session_default_to_last = 1
 
-let g:vimspector_enable_mappings = 'HUMAN'
+" let g:vimspector_enable_mappings = 'HUMAN'
+
+" custom double leader mapping for vimspector, based on the 'HUMAN' config, to
+" avoid collision with tagbar
+
+nmap <leader><F5>         <Plug>VimspectorContinue
+nmap <leader><leader><F5> <Plug>VimspectorLaunch
+nmap <leader><F3>         <Plug>VimspectorStop
+nmap <leader><F4>         <Plug>VimspectorRestart
+nmap <leader><F6>         <Plug>VimspectorPause
+nmap <leader><F9>         <Plug>VimspectorToggleBreakpoint
+nmap <leader><leader><F9> <Plug>VimspectorToggleConditionalBreakpoint
+nmap <leader><F8>         <Plug>VimspectorAddFunctionBreakpoint
+nmap <leader><leader><F8> <Plug>VimspectorRunToCursor
+nmap <leader><F10>        <Plug>VimspectorStepOver
+nmap <leader><F11>        <Plug>VimspectorStepInto
+nmap <leader><F12>        <Plug>VimspectorStepOut
