@@ -151,3 +151,20 @@ Useful commands:
 :CocList marketplace lang
 ```
 
+### Developing Flutter apps on an Android device
+1. Install `termux` on the andorid device.
+2. Create a GCP VM (probably preemptible), let's make it `cloudvm`.
+3. Turn on wireless debugging on your Android phone (require Android 11+).
+4. Allow current Wi-Fi network.
+5. You will get an "IP address & Port" for connection, let's make it `192.168.1.99:45678` here.
+6. If this is the first time you have went through this process, you will also need to pair your phone with the cloud VM first, select "Pair device with pairing code", you can see another ip address and port, as well as a pairing code. Let's make it `192.168.1.99:23456` and `123456` here.
+7. If you don't have the latest version of adb, you need to install it manually, as the version provided by adb is probably outdated and will not have the `adb pair` command aviliable. You may get it by, on your Cloud VM, `cd /tmp/asdkdowm && curl -O https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip && unzip commandlinetools-linux-7302050_latest.zip`, such that you will have an `./sdkmanager` command you can use, in which you can download the required Android Sdk components by `./sdkmanager --sdk_root=$HOME/Android/Sdk "platform-tools" "platforms;android-30" "build-tools;30.0.3"`. You may also need to accept all the licenses before you can use it.
+8. On Cloud VM, redirect all of the outgoing connections to of all ports to `192.168.1.99` by running `sudo iptables -t nat "A" OUTPUT -p all -d "192.168.1.99" -j DNAT --to-destination 127.0.0.1`, change A to D for deleting this redirection. (`cloudvmrtl A|D 192.168.1.99`)
+9. On termux of the Android device, setup headless SSH port forwarding by running `gcloud beta compute ssh username@cloudvm -- -f -N -R localhost:45678:192.168.1.99:45678 -R localhost:23456:192.168.1.99:23456`. You can list all of these headless SSH port forwarding background process by `ps -e -f | grep -- '-f -N'` and then run `kill` on each of them. (It is also possible to just do `pkill` on them, but it would also nuke all other similar SSH process on the VM, which is dangerous. It is also not necessary to port forward the port for pairing after you have went through the pairing process) (`cloudvmpf R 192.168.1.99 23456 45678` / `cloudvmpfls`)
+10. If you haven't done the pairing yet, do the pairing on Cloud VM with `adb pair 192.168.1.99:23456 123456`.
+11. On the VM, connect to the Android device by running `adb connect 192.168.1.99:45678`. Run `flutter devices` to verify you have already connected, then you can just do the normal development with flutter. It is also possible to develop for flutter web on the Android device if you do a extra SSH port forwarding.
+12. It is currently not possible to do wireless debugging without connecting to a Wi-Fi network, however it should be possible to implement it. If it is implmented, then you won't even need to do the iptable NAT routing since it is used for preventing Android device complain about source IP address mismatch. Currently, if you do not do that mapping and simply do `adb connect 127.0.0.1"45678"`, you will be able to connect to the Android device, but it won't allow it since you are using `127.0.0.1` instead of `192.168.1.99` which is not what it provies to you.
+
+
+### Notes
+- I have a few scripts to reduce the amount of keystrokes I need to achieve certain commands here, instructions for using my own scripts maybe aviliable for some command here, however they are not open-sourced here since those are customized for my own workflow and would not be useful for others. However it should not be hard to write your own scripts that run the command provided by me.

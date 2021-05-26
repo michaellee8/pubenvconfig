@@ -1,60 +1,72 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
-" Plugin management with Vundle
+" Plugin management with vim-plug
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
-Plugin 'VundleVim/Vundle.vim'
-
-
-Plugin 'tpope/vim-fugitive'
-
-Plugin 'fatih/vim-go'
-
-Plugin 'ycm-core/YouCompleteMe'
-
-Plugin 'preservim/nerdtree'
-
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-
-" Plugin 'mg979/vim-visual-multi'
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
 
-Plugin 'tpope/vim-eunuch'
+call plug#begin('~/.vim/plugged')
 
-Plugin 'tpope/vim-surround'
+Plug 'VundleVim/Vundle.vim'
 
-Plugin 'editorconfig/editorconfig-vim'
 
-Plugin 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
-Plugin 'preservim/nerdcommenter'
+Plug 'fatih/vim-go'
 
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'ycm-core/YouCompleteMe'
 
-Plugin 'xolox/vim-session'
+Plug 'preservim/nerdtree'
 
-Plugin 'xolox/vim-misc'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
-" Plugin 'tpope/vim-commentary'
+" Plug 'mg979/vim-visual-multi'
 
-Plugin 'jiangmiao/auto-pairs'
 
-Plugin 'preservim/tagbar'
+Plug 'tpope/vim-eunuch'
 
-Plugin 'Yggdroot/indentLine'
+Plug 'tpope/vim-surround'
 
-Plugin 'dart-lang/dart-vim-plugin'
+Plug 'editorconfig/editorconfig-vim'
 
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter'
 
-call vundle#end()            " required
+" Plug 'preservim/nerdcommenter'
 
-filetype plugin indent on    " required
+Plug 'christoomey/vim-tmux-navigator'
+
+" Plug 'xolox/vim-session'
+
+Plug 'xolox/vim-misc'
+
+Plug 'tpope/vim-commentary'
+
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'preservim/tagbar'
+
+Plug 'Yggdroot/indentLine'
+
+Plug 'dart-lang/dart-vim-plugin'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'tpope/vim-obsession'
+Plug 'puremourning/vimspector'
+
+call plug#end()
+
 
 " gopls daemon mode
 
@@ -146,6 +158,6 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " session.vim settings
-let g:session_default_to_last = 1
+" let g:session_default_to_last = 1
 
-
+let g:vimspector_enable_mappings = 'HUMAN'
