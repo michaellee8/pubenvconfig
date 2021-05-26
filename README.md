@@ -151,7 +151,7 @@ Useful commands:
 :CocList marketplace lang
 ```
 
-### Developing Flutter apps on an Android device
+## Developing Flutter apps on an Android device
 1. Install `termux` on the andorid device.
 2. Create a GCP VM (probably preemptible), let's make it `cloudvm`.
 3. Turn on wireless debugging on your Android phone (require Android 11+).
@@ -163,8 +163,8 @@ Useful commands:
 9. On termux of the Android device, setup headless SSH port forwarding by running `gcloud beta compute ssh username@cloudvm -- -f -N -R localhost:45678:192.168.1.99:45678 -R localhost:23456:192.168.1.99:23456`. You can list all of these headless SSH port forwarding background process by `ps -e -f | grep -- '-f -N'` and then run `kill` on each of them. (It is also possible to just do `pkill` on them, but it would also nuke all other similar SSH process on the VM, which is dangerous. It is also not necessary to port forward the port for pairing after you have went through the pairing process) (`cloudvmpf R 192.168.1.99 23456 45678` / `cloudvmpfls`)
 10. If you haven't done the pairing yet, do the pairing on Cloud VM with `adb pair 192.168.1.99:23456 123456`.
 11. On the VM, connect to the Android device by running `adb connect 192.168.1.99:45678`. Run `flutter devices` to verify you have already connected, then you can just do the normal development with flutter. It is also possible to develop for flutter web on the Android device if you do a extra SSH port forwarding.
-12. It is currently not possible to do wireless debugging without connecting to a Wi-Fi network, however it should be possible to implement it. If it is implmented, then you won't even need to do the iptable NAT routing since it is used for preventing Android device complain about source IP address mismatch. Currently, if you do not do that mapping and simply do `adb connect 127.0.0.1"45678"`, you will be able to connect to the Android device, but it won't allow it since you are using `127.0.0.1` instead of `192.168.1.99` which is not what it provies to you.
+12. It is currently not possible to do wireless debugging without connecting to a Wi-Fi network, however it should be possible to implement it. If it is implmented, then you won't even need to do the iptable NAT routing since it is used for preventing Android device complain about source IP address mismatch. Currently, if you do not do that mapping and simply do `adb connect 127.0.0.1:45678`, you will be able to connect to the Android device, but it won't allow it since you are using `127.0.0.1` instead of `192.168.1.99` which is not what it provies to you.
 
 
-### Notes
+## Notes
 - I have a few scripts to reduce the amount of keystrokes I need to achieve certain commands here, instructions for using my own scripts maybe aviliable for some command here, however they are not open-sourced here since those are customized for my own workflow and would not be useful for others. However it should not be hard to write your own scripts that run the command provided by me.
