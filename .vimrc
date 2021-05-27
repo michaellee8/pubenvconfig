@@ -119,6 +119,7 @@ let g:tagbar_type_go = {
 \ }
 
 map <C-n> :NERDTreeToggle<CR>
+map <leader><C-n> :NERDTreeToggleVCS<CR>
 
 " code style settings
 
@@ -133,6 +134,7 @@ set mouse=a
 " NERDTree settings
 
 let NERDTreeShowHidden=1
+let NERDTreeQuitOnOpen=1
 
 set number relativenumber
 
