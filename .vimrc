@@ -147,6 +147,11 @@ set statusline+=%F
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gd :YcmCompleter GoTo<CR>
 
+nnoremap <leader>ycfi :YcmCompleter FixIt<CR>
+nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
+nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
+
+
 " nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 " nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 " nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
