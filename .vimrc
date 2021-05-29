@@ -151,6 +151,12 @@ nnoremap <leader>ycfi :YcmCompleter FixIt<CR>
 nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
 nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
 
+nnoremap ycgr :YcmCompleter GoToReferences<CR>
+nnoremap ycgd :YcmCompleter GoTo<CR>
+
+nnoremap ycfi :YcmCompleter FixIt<CR>
+nnoremap ycrr :YcmCompleter RefactorRename<CR>
+nnoremap ycdo :YcmCompleter GetDoc<CR>
 
 " nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 " nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
