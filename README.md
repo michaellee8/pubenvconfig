@@ -43,6 +43,7 @@ either intentional or careless.
 - `vifm`
 - `tmux`
 - `tmuxp`
+- `mycli`
 
 - `universal-ctags`
 - `gotags`
