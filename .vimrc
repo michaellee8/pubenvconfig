@@ -82,7 +82,12 @@ let g:ycm_language_server = [
   \   {
   \     'name': 'dart',
   \     'cmdline': ['dart', '/usr/lib/dart/bin/snapshots/analysis_server.dart.snapshot', '--lsp'],
-  \     'filetypes': [ 'dart' ],
+  \     'filetypes': ['dart'],
+  \   },
+  \   {
+  \     'name': 'yaml',
+  \     'cmdline': ['yaml-language-server', '--stdio'],
+  \     'filetypes': ['yaml', 'yml'],
   \   },
   \ ]
 
