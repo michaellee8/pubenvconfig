@@ -160,7 +160,7 @@ nnoremap ycgr :YcmCompleter GoToReferences<CR>
 nnoremap ycgd :YcmCompleter GoTo<CR>
 
 nnoremap ycfi :YcmCompleter FixIt<CR>
-nnoremap ycrr :YcmCompleter RefactorRename<CR>
+nnoremap ycrr :YcmCompleter RefactorRename
 nnoremap ycdo :YcmCompleter GetDoc<CR>
 
 " nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
