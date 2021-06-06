@@ -65,6 +65,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-obsession'
 Plug 'puremourning/vimspector'
 
+Plug 'sebdah/vim-delve'
+
 call plug#end()
 
 

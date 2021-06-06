@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Authored by michaellee8 <ckmichael8@gmail.com>
+# Licensed under MIT license.
+
+# Usage:
+# git-fired <people-fired/arrived-since> <people-not-fired/arrived-yet-since>
+
+# Example
+# git-fired 2021/06/01 2021/05/01
+# Will output a diff of all unique authors of the 
+# current git repo of 2021/06/01 to now and 
+# 2021/05/01 to 2021/06/01, effective showing if 
+# anyone has arrived or been fired during 
+# this month.
+
+# Notes
+# It is not necessary accurate, may not work if 
+# someone haven't commit anything to the current 
+# repo during the stated period. Better ask ur HR 
+# if they would tell you.
+
+if [[ -z "$1" ]]; then
+    echo "missing people-fired/arrived-since"
+    exit 1
+fi
+
+if [[ -z "$2" ]]; then
+    echo "missing people-not-fired/arrived-since"
+    exit 1
+fi
+
+prevlog=$(mktemp)
+nowlog=$(mktemp)
+
+git log --format="%an <%ae>" --since $1 | sort | uniq > $nowlog
+
+
+git log --format="%an <%ae>" --until $1 --since $2 | sort | uniq > $prevlog
+
+git diff $prevlog $nowlog
