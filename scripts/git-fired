@@ -23,12 +23,18 @@
 # now, thrid column has names that existed in both present and the past
 
 # Example
-# git-fired 2021/06/01 2021/05/01
+# git-fired 2021/06/01 2021/05/01 -single
 # Will output a diff of all unique authors of the 
 # current git repo of 2021/06/01 to now and 
 # 2021/05/01 to 2021/06/01, effective showing if 
 # anyone has arrived or been fired during 
 # this month.
+
+# More examples:
+# git-fired 2021/06/01 2021/05/01 -single
+# git-fired 2021/06/01 2021/05/01 -multi
+# git-fired 2021/06/01 2021/05/01 -single -name
+# git-fired 2021/06/01 2021/05/01 -single -name
 
 # Use the following command if your organization 
 # has multiple repo, and your cwd is a folder with 
