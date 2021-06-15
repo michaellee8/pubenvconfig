@@ -197,3 +197,8 @@ nmap <leader><leader><F8> <Plug>VimspectorRunToCursor
 nmap <leader><F10>        <Plug>VimspectorStepOver
 nmap <leader><F11>        <Plug>VimspectorStepInto
 nmap <leader><F12>        <Plug>VimspectorStepOut
+
+" filetype specific settings
+autocmd Filetype yml setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 expandtab
+
