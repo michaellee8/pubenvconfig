@@ -12,3 +12,6 @@ vicd()
 	cd "$dst"
 }
 
+if [ -x "$(command -v git)" ]; then
+  export EDITOR=nvim
+fi
