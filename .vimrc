@@ -127,6 +127,8 @@ let g:tagbar_type_go = {
 
 map <C-n> :NERDTreeToggle<CR>
 map <leader><C-n> :NERDTreeToggleVCS<CR>
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * silent NERDTreeMirror
 
 " code style settings
 
