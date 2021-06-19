@@ -93,6 +93,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 git clone https://github.com/flutter/flutter.git -b stable --depth 1
 export PATH="$PATH:`pwd`/flutter/bin"
 flutter precache
+
+# Use npm global without root
+npm config set prefix '~/.local/'
 ```
 
 ## Neovim Setup

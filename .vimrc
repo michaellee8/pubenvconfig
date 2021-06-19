@@ -67,6 +67,8 @@ Plug 'puremourning/vimspector'
 
 Plug 'sebdah/vim-delve'
 
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
 call plug#end()
 
 
