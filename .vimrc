@@ -163,6 +163,10 @@ nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
 nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
 
 nnoremap ycgr :YcmCompleter GoToReferences<CR>
+nnoremap ycgi :YcmCompleter GoToImplementation<CR>
+nnoremap ycgc :YcmCompleter GoToDeclaration<CR>
+nnoremap ycgf :YcmCompleter GoToDefinition<CR>
+nnoremap ycgt :YcmCompleter GoToType<CR>
 nnoremap ycgd :YcmCompleter GoTo<CR>
 
 nnoremap ycfi :YcmCompleter FixIt<CR>
