@@ -9,7 +9,7 @@ portable and progressive, which means that I am always trying to extend editor/t
 configuration, so that things will still more or kess work for 
 me even in an environment that I don't get these setup. I am 
 also trying to utilize trusted and managed components instead of 
-components pulled from some random guy's github or npm, which 
+components pulled from some random guy's github or npm, which 
 may not be well maintained or even contain security issues, 
 either intentional or careless. 
 
@@ -49,11 +49,31 @@ either intentional or careless.
 - `gotags`
 
 
-## Vim/Neovim setup
+## Neovim setup
 
 ```bash
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall
+# Install neovim normally through apt
+sudo apt install neovim
+
+# Install neovim by directly downloading AppImage (fallback)
+# Better don't try snap, will have a lot of permission issues when using as system editor
+# Also AppImage will not need root permission, if you cannot do apt you most certainly cannot do snap
+mkdir -p $HOME/.local/bin && curl -L https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage -o $HOME/.local/bin/nvim && chmod +x $HOME/.local/bin/nvim
+
+# Neovim vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+
+
+# Vim vim-plug (fallback)
+# curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Vundle (fallback)
+# git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# nvim +PluginInstall # should not be required, Plug installes all packages automatically
 # YouCompleteMe take sometime to download, 
 # should be commented out from .vimrc if fast access is required
 ```
@@ -172,3 +192,5 @@ Useful commands:
 
 ## Notes
 - I have a few scripts to reduce the amount of keystrokes I need to achieve certain commands here, instructions for using my own scripts maybe aviliable for some command here, however they are not open-sourced here since those are customized for my own workflow and would not be useful for others. However it should not be hard to write your own scripts that run the command provided by me.
+- Useful script get getting script parent dir: `SCRIPT_SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"`
+- Disable touchpad while typing: `gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true`

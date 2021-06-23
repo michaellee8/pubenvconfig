@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPT_SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
+source $SCRIPT_SRC_DIR/cart-config.sh
+ps -e -f | grep -- '-f -N' | grep -- 'ssh' | grep -- "google_compute_engine"
+

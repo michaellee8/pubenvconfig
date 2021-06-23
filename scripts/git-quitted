@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Authored by michaellee8 <ckmichael8@gmail.com>
+# Licensed under MIT license.
+
+# Originally called git-fired
+# Usage:
+# git-quitted <people-quitted/arrived-since> <people-not-quitted/arrived-yet-since> -multi/-single -name
+# Use -multi to your third argument if your 
+# company has multiple git repo and you want to 
+# analyaze all of them. This option will cause 
+# this script to find all git repos of your 
+# company under the cwd, retrieve the list of 
+# commit authors of them in the specified period, 
+# and then run diff on them all.
+# Use -name to prevent diffing on a email+name basis, which could be messy if 
+# your company does not do proper commit message checking. Only committer name
+# will be diffed if you specified -name
+# -multi if exists must be the third argument.
+
+# Output: the output uses comm, which has three columns, 
+# seperated by |, the first column 
+# has names that only existed in past, second column has names that only exists 
+# now, thrid column has names that existed in both present and the past
+
+# Example
+# git-quitted 2021-06-01 2021-05-01 -single
+# Will output a diff of all unique authors of the 
+# current git repo of 2021/06/01 to now and 
+# 2021/05/01 to 2021/06/01, effective showing if 
+# anyone has arrived or been fired during 
+# this month.
+
+# More examples:
+# git-quitted 2021-06-01 2021-05-01 -single
+# git-quitted 2021-06-01 2021-05-01 -multi
+# git-quitted 2021-06-01 2021-05-01 -single -name
+# git-quitted 2021-06-01 2021-05-01 -single -name
+
+# Use the following command if your organization 
+# has multiple repo, and your cwd is a folder with 
+# all those repos as subdirectories, you may also 
+
+# Notes
+# It is not necessary accurate, may not work if 
+# someone haven't commit anything to the current 
+# repo during the stated period. Better ask ur HR 
+# if they would tell you, not mine through so this 
+# script exists
+
+# find . -maxdepth 2 -mindepth 2 -name '.git' -type d -execdir bash -c 'echo && pwd && git-quitted 2021-06-01 2021-05-01' \;
+
+
+if [[ -z "$1" ]]; then
+    echo "missing people-quitted/arrived-since"
+    exit 1
+fi
+
+if [[ -z "$2" ]]; then
+    echo "missing people-not-quitted/arrived-since"
+    exit 1
+fi
+
+if [[ -z "$3" ]]; then
+    echo "missing mode, 3rd argument should be -multi or -single"
+    exit 1
+fi
+
+printformat="%an <%ae>"
+if [[ -n "$4" && "$4" == "-name" ]];then 
+    printformat="%an"
+fi
+
+prevlog=$(mktemp)
+nowlog=$(mktemp)
+prevuniqlog=$(mktemp)
+nowuniqlog=$(mktemp)
+
+# less evil original version of the script that won't grab multi repos
+if [[ "$3" == "-single" ]]; then
+
+    git log --format="$printformat" --since $1 | sort | uniq > $nowlog
+
+    git log --format="$printformat" --until $1 --since $2 | sort | uniq > $prevlog
+
+    echo "prev                |new                 |common              |"
+
+    comm --total --output-delimiter="                    |" --check-order $prevlog $nowlog
+
+    exit 0
+fi
+
+# multi repo version of this script, warning: hr won't like this
+find . -name '.git' -type d -execdir bash -c "git log --format='$printformat' --since $1 | sort | uniq >> $nowlog; git log --format='$printformat' --until $1 --since $2 | sort | uniq >> $prevlog" \;
+
+cat $prevlog | sort | uniq > $prevuniqlog
+cat $nowlog | sort | uniq > $nowuniqlog
+
+# git --no-pager diff -s $prevuniqlog $nowuniqlog
+echo "prev                |new                 |common              |"
+comm --total --output-delimiter="                    |" --check-order $prevuniqlog $nowuniqlog
+

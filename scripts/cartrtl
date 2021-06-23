@@ -1,0 +1,5 @@
+#!/bin/bash
+# $1: A|D
+# $2: ipaddr
+sudo iptables -t nat "-$1" OUTPUT -p all -d "$2" -j DNAT --to-destination 127.0.0.1
+
