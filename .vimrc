@@ -155,12 +155,12 @@ set filetype
 set statusline+=%F
 
 " YouCompleteMe key bindings and settings
-nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>gd :YcmCompleter GoTo<CR>
+" nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
+" nnoremap <leader>gd :YcmCompleter GoTo<CR>
 
-nnoremap <leader>ycfi :YcmCompleter FixIt<CR>
-nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
-nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
+" nnoremap <leader>ycfi :YcmCompleter FixIt<CR>
+" nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
+" nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
 
 nnoremap ycgr :YcmCompleter GoToReferences<CR>
 nnoremap ycgi :YcmCompleter GoToImplementation<CR>
@@ -172,6 +172,10 @@ nnoremap ycgd :YcmCompleter GoTo<CR>
 nnoremap ycfi :YcmCompleter FixIt<CR>
 nnoremap ycrr :YcmCompleter RefactorRename
 nnoremap ycdo :YcmCompleter GetDoc<CR>
+
+nmap ycfw <Plug>(YCMFindSymbolInWorkspace)
+nmap ycfd <Plug>(YCMFindSymbolInDocument)
+
 
 " nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 " nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
@@ -209,4 +213,6 @@ nmap <leader><F12>        <Plug>VimspectorStepOut
 " filetype specific settings
 autocmd Filetype yml setlocal tabstop=2 shiftwidth=2 expandtab
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 expandtab
+
+set tabstop=2 shiftwidth=2 expandtab
 
