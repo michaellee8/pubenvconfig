@@ -16,14 +16,15 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'VundleVim/Vundle.vim'
+Plug 'neovim/nvim-lspconfig'
 
+Plug 'kabouzeid/nvim-lspinstall'
 
 Plug 'tpope/vim-fugitive'
 
 Plug 'fatih/vim-go'
 
-Plug 'ycm-core/YouCompleteMe'
+" Plug 'ycm-core/YouCompleteMe'
 
 Plug 'preservim/nerdtree'
 
@@ -53,7 +54,7 @@ Plug 'tpope/vim-commentary'
 
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'preservim/tagbar'
+" Plug 'preservim/tagbar'
 
 Plug 'Yggdroot/indentLine'
 
@@ -69,8 +70,88 @@ Plug 'sebdah/vim-delve'
 
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
+Plug 'nvim-lua/popup.nvim'
+
+Plug 'nvim-lua/plenary.nvim'
+
+Plug 'akinsho/flutter-tools.nvim'
+
+Plug 'mfussenegger/nvim-dap'
+
+Plug 'rcarriga/nvim-dap-ui'
+
+Plug 'nvim-telescope/telescope.nvim'
+
+Plug 'embear/vim-localvimrc'
+
+Plug 'hrsh7th/nvim-compe'
+
 call plug#end()
 
+" lsp config
+lua << EOF
+local function setup_servers()
+  require'lspinstall'.setup()
+  local servers = require'lspinstall'.installed_servers()
+  for _, server in pairs(servers) do
+    require'lspconfig'[server].setup{}
+  end
+end
+
+setup_servers()
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function ()
+  setup_servers() -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+
+require("flutter-tools").setup {
+    debugger = {
+      enabled = true,
+    },
+    flutter_path = "/home/michaellee8/.local/lib/flutter/bin/flutter",
+    dev_tools = {
+      autostart = true,
+    },
+}
+
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  resolve_timeout = 800;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = {
+    border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  };
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    vsnip = true;
+    ultisnips = true;
+    luasnip = true;
+  };
+}
+
+
+EOF
 
 " gopls daemon mode
 
@@ -205,6 +286,15 @@ nmap <leader><leader><F8> <Plug>VimspectorRunToCursor
 nmap <leader><F10>        <Plug>VimspectorStepOver
 nmap <leader><F11>        <Plug>VimspectorStepInto
 nmap <leader><F12>        <Plug>VimspectorStepOut
+
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" global 2 spaces indent
+set tabstop=2 shiftwidth=2 expandtab
 
 " filetype specific settings
 autocmd Filetype yml setlocal tabstop=2 shiftwidth=2 expandtab
