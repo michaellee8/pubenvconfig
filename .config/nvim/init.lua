@@ -23,7 +23,36 @@ return require('packer').startup(function(use)
 
 -- load packer
   use 'wbthomason/packer.nvim'
+
+-- treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  
+-- autocomplete
+  use {
+    'hrsh7th/nvim-compe',
+    config = function()
+      require('compe').setup()
+    end
+  }
+
+-- dap support
+
+  use 'mfussenegger/nvim-dap'
+
+  use 'theHamsta/nvim-dap-virtual-text'
+  
+  use { 
+    "rcarriga/nvim-dap-ui", 
+    requires = {
+      "mfussenegger/nvim-dap"
+    },
+    config = function()
+      require('dapui').setup()
+    end
+  }
+
+
+
   use {
     'lewis6991/gitsigns.nvim',
     requires = {
@@ -33,4 +62,22 @@ return require('packer').startup(function(use)
       require('gitsigns').setup()
     end
   }
+
+
 end)
+
+-- lsp config
+
+
+-- autocomplete config
+
+vim.o.completeopt = "menuone,noselect"
+
+
+-- dap related config
+
+vim.g.dap_virtual_text = true
+
+require("dapui").setup()
+
+
