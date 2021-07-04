@@ -34,11 +34,8 @@ local use_custom_config = vim.env.VIM_USE_CUSTOM_CONFIG == "true" or vim.env.VIM
 
 -- Declare packer.nvim plugins.
 
-vim.cmd [[packadd packer.nvim]]
 
-vim._update_package_paths()
-
-return require("packer").startup(function(use)
+require("packer").startup(function(use)
 
   -- load packer
   use "wbthomason/packer.nvim"
@@ -48,7 +45,43 @@ return require("packer").startup(function(use)
 
   -- native lsp
   
-  use "neovim/nvim-lspconfig"
+  use {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require("lspconfig").pyright.setup{
+        on_attach = on_attach,
+      }
+      require("lspconfig").pyright.setup{
+        on_attach = on_attach,
+      }
+
+      require("lspconfig").gopls.setup{
+        on_attach = on_attach,
+      }
+
+      require("lspconfig").jsonls.setup {
+          commands = {
+            Format = {
+              function()
+                vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
+              end
+            }
+          },
+          on_attach = on_attach,
+      }
+      require("lspconfig").rust_analyzer.setup{
+        on_attach = on_attach,
+      }
+
+      require("lspconfig").yamlls.setup{
+        on_attach = on_attach,
+      }
+
+      require("lspconfig").tsserver.setup{
+        on_attach = on_attach,
+      }
+    end
+  }
 
   use {
     "simrat39/symbols-outline.nvim",
@@ -205,12 +238,12 @@ end)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local function on_attach(client, bufnr)
+local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- Enable completion triggered by <c-x><c-o>
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -236,42 +269,6 @@ local function on_attach(client, bufnr)
 
 end
 
-require("lspconfig").pyright.setup{
-  on_attach = on_attach,
-}
-require("lspconfig").pyright.setup{
-  on_attach = on_attach,
-}
-
-require("lspconfig").gopls.setup{
-  on_attach = on_attach,
-}
-
-require("lspconfig").jsonls.setup {
-    commands = {
-      Format = {
-        function()
-          vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
-        end
-      }
-    },
-    on_attach = on_attach,
-}
-require("lspconfig").rust_analyzer.setup{
-  on_attach = on_attach,
-}
-
-require("lspconfig").yamlls.setup{
-  on_attach = on_attach,
-}
-
-require("lspconfig").tsserver.setup{
-  on_attach = on_attach,
-}
-
-
-
-
 -- autocomplete config
 
 vim.o.completeopt = "menuone,noselect"
@@ -291,7 +288,7 @@ vim.g.dap_virtual_text = true
 local function set_nvim_compe_keymap(l, r)
   vim.api.nvim_set_keymap("n", l, r, {
     noremap = true, 
-    slient = true, 
+    silent = true, 
     expr = true, 
   })
 end
@@ -299,7 +296,10 @@ end
 set_nvim_compe_keymap("<C-Space>", "compe#complete()")
 -- Not sure if this is the corrrect way for lua,
 -- see https://github.com/hrsh7th/nvim-compe/commit/a7ea48b856841518cd9f542338a69f5165a65de4
-set_nvim_compe_keymap("<CR>", 'compe#confirm({ "keys": "\<Plug>delimitMateCR", "mode": "" }')
+-- set_nvim_compe_keymap("<CR>", 'compe#confirm({ "keys": "\<Plug>delimitMateCR", "mode": "" }')
+vim.cmd([[
+inoremap <silent><expr> <CR> compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+]])
 set_nvim_compe_keymap("<C-e>", "compe#close('<C-e>')")
 set_nvim_compe_keymap("<C-f>", "compe#scroll({ 'delta': +4 })")
 set_nvim_compe_keymap("<C-d>", "compe#scroll({ 'delta': -4 })")
@@ -311,5 +311,23 @@ vim.api.nvim_set_keymap("n", "<F8>", ":SymbolsOutline<CR>", {
 })
 
 -- core settings
+
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.filetype= "on"
+
+vim.o.colorcolumn = "80"
+
+-- 2 spaces for indention
+
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
+vim.o.smarttab = true
+vim.o.mouse = "a"
+
+vim.o.statusline = vim.o.statusline .. "%F"
+
 
 
