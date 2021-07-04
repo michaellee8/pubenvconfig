@@ -28,7 +28,7 @@ end
 
 local no_flutter = vim.env.VIM_NO_FLUTTER == "1" or vim.env.VIM_NO_FLUTTER == "true"
 
--- Source a specific nvimconf.lua in the cwd.
+-- Source a specific vimconf.lua in the cwd.
 
 local use_custom_config = vim.env.VIM_USE_CUSTOM_CONFIG == "true" or vim.env.VIM_USE_CUSTOM_CONFIG == "1"
 
@@ -114,7 +114,39 @@ require("packer").startup(function(use)
   use {
     "hrsh7th/nvim-compe",
     config = function()
-      require("compe").setup()
+      require("compe").setup{
+        enabled = true,
+        autocomplete = true,
+        debug = true,
+        min_length = 1,
+        preselect = 'enable',
+        throttle_time = 80,
+        source_timeout = 200,
+        resolve_timeout = 800,
+        incomplete_delay = 400,
+        max_abbr_width = 100,
+        max_kind_width = 100,
+        max_menu_width = 100,
+        documentation = {
+          border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+          winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+          max_width = 120,
+          min_width = 60,
+          max_height = math.floor(vim.o.lines * 0.3),
+          min_height = 1,
+        },
+
+        source = {
+          path = true,
+          buffer = true,
+          calc = true,
+          nvim_lsp = true,
+          nvim_lua = true,
+          vsnip = true,
+          ultisnips = true,
+          luasnip = true,
+        },
+      }
     end
   }
 
@@ -148,14 +180,14 @@ require("packer").startup(function(use)
     requires = {
       {"nvim-lua/popup.nvim"}, 
       {"nvim-lua/plenary.nvim"},
-      {"'kyazdani42/nvim-web-devicons'"},
+      {"kyazdani42/nvim-web-devicons"},
     },
     config = function()
       require("telescope").setup {}
     end
   }
-  -- Optionally depends on ripgrep, 
-  -- install by sudo apt install ripgrep.
+  -- Optionally depends on ripgrep and fd-find, 
+  -- install by sudo apt install ripgrep fd-find.
 
 
   -- other plugins
@@ -328,6 +360,4 @@ vim.o.smarttab = true
 vim.o.mouse = "a"
 
 vim.o.statusline = vim.o.statusline .. "%F"
-
-
 
