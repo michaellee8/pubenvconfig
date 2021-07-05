@@ -84,6 +84,16 @@ require("packer").startup(function(use)
   }
 
   use {
+    "glepnir/lspsaga.nvim",
+    requires = {
+      "neovim/nvim-lspconfig",
+    },
+    config = function()
+      saga.init_lsp_saga()
+    end
+  }
+
+  use {
     "simrat39/symbols-outline.nvim",
     config = function()
       vim.g.symbols_outline = {
@@ -281,22 +291,23 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- Some keymaps are commented out to prevent collision with lspsaga
+  -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  -- buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  -- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  -- buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  -- buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
@@ -325,16 +336,50 @@ local function set_nvim_compe_keymap(l, r)
   })
 end
 
-set_nvim_compe_keymap("<C-Space>", "compe#complete()")
--- Not sure if this is the corrrect way for lua,
--- see https://github.com/hrsh7th/nvim-compe/commit/a7ea48b856841518cd9f542338a69f5165a65de4
--- set_nvim_compe_keymap("<CR>", 'compe#confirm({ "keys": "\<Plug>delimitMateCR", "mode": "" }')
+-- Setting keymap in lua is verbose right now, so I just use VimScript
 vim.cmd([[
-inoremap <silent><expr> <CR> compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+
+" nvim-compe
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>f. <cmd>Telescope find_files hidden=true<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" lspsaga.nvim
+nnoremap <silent> gh :Lspsaga lsp_finder<CR>
+
+nnoremap <silent><leader>ca :Lspsaga code_action<CR>
+vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
+
+nnoremap <silent> K :Lspsaga hover_doc<CR>
+nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+
+nnoremap <silent> gs :Lspsaga signature_help<CR>
+
+nnoremap <silent> gr :Lspsaga rename<CR>
+
+nnoremap <silent> gd :Lspsaga preview_definition<CR>
+
+nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
+
+nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
+
+nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
+nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
+
+nnoremap <silent> <A-d> :Lspsaga open_floaterm<CR>
+tnoremap <silent> <A-d> <C-\><C-n>:Lspsaga close_floaterm<CR>
+
 ]])
-set_nvim_compe_keymap("<C-e>", "compe#close('<C-e>')")
-set_nvim_compe_keymap("<C-f>", "compe#scroll({ 'delta': +4 })")
-set_nvim_compe_keymap("<C-d>", "compe#scroll({ 'delta': -4 })")
 
 -- symbols-outline.nvim
 
@@ -347,6 +392,7 @@ vim.api.nvim_set_keymap("n", "<F8>", ":SymbolsOutline<CR>", {
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.filetype= "on"
+vim.o.wrap = false
 
 vim.o.colorcolumn = "80"
 
@@ -361,3 +407,36 @@ vim.o.mouse = "a"
 
 vim.o.statusline = vim.o.statusline .. "%F"
 
+local cwd = vim.fn.getcwd()
+if use_custom_config and vim.fn.filereadable(cwd .. "/vimconf.lua") == 1 then
+  local msg1 = "Trying to source " .. cwd .. 
+    "/vimconf.lua becuase you have set VIM_USE_CUSTOM_CONFIG to " ..
+    vim.env.VIM_USE_CUSTOM_CONFIG .. "."
+  local choices1 = "&No\n&yes\n&show"
+  local default1 = 1
+  local result1 = vim.fn.confirm(msg1, choices1, default1)
+  if result1 == 2 then
+    -- yes, load the script
+    vim.cmd("source " .. cwd .. "/vimconf.lua")
+  elseif result1 == 3 then
+    -- show, show the script to user
+    -- use binary readfile() to block encoding tricks
+    local script_text = vim.fn.readfile(cwd .. "/vimconf.lua", "b")
+    local msg2 = "Content of ".. cwd .. "/vimconf.lua: \n" ..
+      "-------------------------------------\n" ..
+      table.concat(script_text,"\n") ..
+      "\n-------------------------------------\n" ..
+      "Really load this script?\n"
+    local choice2 = "&No\n&yes"
+    local default2 = 1
+    local result2 = vim.fn.confirm(msg2, choice2, default2)
+    if result2 == 2 then
+      -- yes, load the script
+      vim.cmd("source " .. cwd .. "/vimconf.lua")
+    end
+  elseif result == 1 then
+    -- No, do not load the script
+    -- No-op
+  end
+
+end
