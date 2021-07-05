@@ -113,6 +113,10 @@ require("packer").startup(function(use)
 
   use {
     "hrsh7th/nvim-compe",
+    requires = {
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/vim-vsnip-integ",
+    },
     config = function()
       require("compe").setup{
         enabled = true,
@@ -301,6 +305,8 @@ local on_attach = function(client, bufnr)
 
 end
 
+_G._on_lsp_attach = on_attach
+
 -- autocomplete config
 
 vim.o.completeopt = "menuone,noselect"
@@ -325,16 +331,61 @@ local function set_nvim_compe_keymap(l, r)
   })
 end
 
-set_nvim_compe_keymap("<C-Space>", "compe#complete()")
--- Not sure if this is the corrrect way for lua,
--- see https://github.com/hrsh7th/nvim-compe/commit/a7ea48b856841518cd9f542338a69f5165a65de4
--- set_nvim_compe_keymap("<CR>", 'compe#confirm({ "keys": "\<Plug>delimitMateCR", "mode": "" }')
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn['vsnip#available'](1) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn['vsnip#jumpable'](-1) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+-- Setting keymap in lua is verbose right now, so I just use VimScript
 vim.cmd([[
-inoremap <silent><expr> <CR> compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+
+" nvim-compe
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>f. <cmd>Telescope find_files hidden=true<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 ]])
-set_nvim_compe_keymap("<C-e>", "compe#close('<C-e>')")
-set_nvim_compe_keymap("<C-f>", "compe#scroll({ 'delta': +4 })")
-set_nvim_compe_keymap("<C-d>", "compe#scroll({ 'delta': -4 })")
+
 
 -- symbols-outline.nvim
 
@@ -347,6 +398,7 @@ vim.api.nvim_set_keymap("n", "<F8>", ":SymbolsOutline<CR>", {
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.filetype= "on"
+vim.o.wrap = false
 
 vim.o.colorcolumn = "80"
 
@@ -361,3 +413,36 @@ vim.o.mouse = "a"
 
 vim.o.statusline = vim.o.statusline .. "%F"
 
+local cwd = vim.fn.getcwd()
+if use_custom_config and vim.fn.filereadable(cwd .. "/vimconf.lua") == 1 then
+  local msg1 = "Trying to source " .. cwd .. 
+    "/vimconf.lua becuase you have set VIM_USE_CUSTOM_CONFIG to " ..
+    vim.env.VIM_USE_CUSTOM_CONFIG .. "."
+  local choices1 = "&No\n&yes\n&show"
+  local default1 = 1
+  local result1 = vim.fn.confirm(msg1, choices1, default1)
+  if result1 == 2 then
+    -- yes, load the script
+    vim.cmd("source " .. cwd .. "/vimconf.lua")
+  elseif result1 == 3 then
+    -- show, show the script to user
+    -- use binary readfile() to block encoding tricks
+    local script_text = vim.fn.readfile(cwd .. "/vimconf.lua", "b")
+    local msg2 = "Content of ".. cwd .. "/vimconf.lua: \n" ..
+      "-------------------------------------\n" ..
+      table.concat(script_text,"\n") ..
+      "\n-------------------------------------\n" ..
+      "Really load this script?\n"
+    local choice2 = "&No\n&yes"
+    local default2 = 1
+    local result2 = vim.fn.confirm(msg2, choice2, default2)
+    if result2 == 2 then
+      -- yes, load the script
+      vim.cmd("source " .. cwd .. "/vimconf.lua")
+    end
+  elseif result == 1 then
+    -- No, do not load the script
+    -- No-op
+  end
+
+end

@@ -12,6 +12,10 @@ vicd()
 	cd "$dst"
 }
 
-if [ -x "$(command -v nvim)" ]; then
-  export EDITOR=nvim
+# Temporially disabled before neovim 0.5.0 is in Ubuntu apt
+# if [ -x "$(command -v nvim)" ]; then
+#   export EDITOR=nvim
+# fi
+if [ -x "$(command -v vim)" ]; then
+  export EDITOR=vim
 fi
