@@ -84,16 +84,6 @@ require("packer").startup(function(use)
   }
 
   use {
-    "glepnir/lspsaga.nvim",
-    requires = {
-      "neovim/nvim-lspconfig",
-    },
-    config = function()
-      require('lspsaga').init_lsp_saga()
-    end
-  }
-
-  use {
     "simrat39/symbols-outline.nvim",
     config = function()
       vim.g.symbols_outline = {
@@ -393,32 +383,6 @@ nnoremap <leader>f. <cmd>Telescope find_files hidden=true<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" lspsaga.nvim
-nnoremap <silent> gh :Lspsaga lsp_finder<CR>
-
-nnoremap <silent><leader>ca :Lspsaga code_action<CR>
-vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
-
-nnoremap <silent> K :Lspsaga hover_doc<CR>
-nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-
-nnoremap <silent> gs :Lspsaga signature_help<CR>
-
-nnoremap <silent> gr :Lspsaga rename<CR>
-
-nnoremap <silent> pd :Lspsaga preview_definition<CR>
-
-nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
-
-nnoremap <silent> <leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
-
-nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
-nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
-
-nnoremap <silent> <A-d> :Lspsaga open_floaterm<CR>
-tnoremap <silent> <A-d> <C-\><C-n>:Lspsaga close_floaterm<CR>
 
 ]])
 
