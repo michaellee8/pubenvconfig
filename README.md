@@ -60,6 +60,9 @@ sudo apt install neovim
 # Also AppImage will not need root permission, if you cannot do apt you most certainly cannot do snap
 mkdir -p $HOME/.local/bin && curl -L https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage -o $HOME/.local/bin/nvim && chmod +x $HOME/.local/bin/nvim
 
+# Install neovim v0.5.0 as nvim5, currently only installable using AppImage
+mkdir -p $HOME/.local/bin && curl -L https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage -o $HOME/.local/bin/nvim5 && chmod +x $HOME/.local/bin/nvim5
+
 # Neovim vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

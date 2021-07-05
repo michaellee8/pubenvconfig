@@ -16,14 +16,11 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'VundleVim/Vundle.vim'
-
-
 Plug 'tpope/vim-fugitive'
 
 Plug 'fatih/vim-go'
 
-Plug 'ycm-core/YouCompleteMe'
+" Plug 'ycm-core/YouCompleteMe'
 
 Plug 'preservim/nerdtree'
 
@@ -53,7 +50,7 @@ Plug 'tpope/vim-commentary'
 
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'preservim/tagbar'
+" Plug 'preservim/tagbar'
 
 Plug 'Yggdroot/indentLine'
 
@@ -70,7 +67,6 @@ Plug 'sebdah/vim-delve'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 call plug#end()
-
 
 " gopls daemon mode
 
@@ -155,12 +151,12 @@ set filetype
 set statusline+=%F
 
 " YouCompleteMe key bindings and settings
-nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>gd :YcmCompleter GoTo<CR>
+" nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
+" nnoremap <leader>gd :YcmCompleter GoTo<CR>
 
-nnoremap <leader>ycfi :YcmCompleter FixIt<CR>
-nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
-nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
+" nnoremap <leader>ycfi :YcmCompleter FixIt<CR>
+" nnoremap <leader>ycrr :YcmCompleter RefactorRename<CR>
+" nnoremap <leader>ycdo :YcmCompleter GetDoc<CR>
 
 nnoremap ycgr :YcmCompleter GoToReferences<CR>
 nnoremap ycgi :YcmCompleter GoToImplementation<CR>
@@ -172,6 +168,10 @@ nnoremap ycgd :YcmCompleter GoTo<CR>
 nnoremap ycfi :YcmCompleter FixIt<CR>
 nnoremap ycrr :YcmCompleter RefactorRename
 nnoremap ycdo :YcmCompleter GetDoc<CR>
+
+nmap ycfw <Plug>(YCMFindSymbolInWorkspace)
+nmap ycfd <Plug>(YCMFindSymbolInDocument)
+
 
 " nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 " nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
@@ -206,7 +206,18 @@ nmap <leader><F10>        <Plug>VimspectorStepOver
 nmap <leader><F11>        <Plug>VimspectorStepInto
 nmap <leader><F12>        <Plug>VimspectorStepOut
 
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" global 2 spaces indent
+set tabstop=2 shiftwidth=2 expandtab
+
 " filetype specific settings
 autocmd Filetype yml setlocal tabstop=2 shiftwidth=2 expandtab
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 expandtab
+
+set tabstop=2 shiftwidth=2 expandtab
 
