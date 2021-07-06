@@ -5,7 +5,8 @@ Copy the config files in repo root to `$HOME` before bootstraping.
 ## Phisoliphy
 
 My phisoliphy in my own environment configuration is to be 
-portable and progressive, which means that I am always trying to extend editor/tools defaults instead of using my own 
+portable and progressive, which means that I am always trying
+to extend editor/tools defaults instead of using my own 
 configuration, so that things will still more or kess work for 
 me even in an environment that I don't get these setup. I am 
 also trying to utilize trusted and managed components instead of 
@@ -50,6 +51,15 @@ either intentional or careless.
 
 
 ## Neovim setup
+
+```lua
+-- Disable flutter tools if a specific environment variable is specified.
+-- Intended for developing Dart SDK or Flutter SDK in-tree.
+local no_flutter = vim.env.VIM_NO_FLUTTER == "1" or vim.env.VIM_NO_FLUTTER == "true"
+
+-- Source a specific vimconf.lua in the cwd.
+local use_custom_config = vim.env.VIM_USE_CUSTOM_CONFIG == "true" or vim.env.VIM_USE_CUSTOM_CONFIG == "1"
+```
 
 ```bash
 # Install neovim normally through apt
