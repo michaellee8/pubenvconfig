@@ -106,6 +106,13 @@ require("packer").startup(function(use)
       }
     end
   }
+
+  use {
+    "nvim-lua/lsp_extensions.nvim",
+    requires = {
+      "neovim/nvim-lspconfig",
+    },
+  }
   
   -- autocomplete
   
@@ -221,7 +228,10 @@ require("packer").startup(function(use)
   use "Yggdroot/indentLine"
 
   -- Will this break flutter-tools.nvim?
-  -- use "dart-lang/dart-vim-plugin"
+  -- use {
+  --   "dart-lang/dart-vim-plugin",
+  --   disable = not no_flutter,
+  -- }
 
   use "vim-airline/vim-airline"
 
@@ -244,28 +254,26 @@ require("packer").startup(function(use)
   }
 
   -- flutter specific
-
-  if not no_flutter then
-    use {
-      "akinsho/flutter-tools.nvim",
-      requires = {
-        "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope.nvim",
-      },
-      config = function()
-        require("flutter-tools").setup{
-          debugger = {
-            enabled = true,
-          },
-          flutter_path = "/home/michaellee8/.local/lib/flutter/bin/flutter",
-          widget_guides = {
-            enabled = true,
-          },
-        }
-        require("telescope").load_extension("flutter")
-      end
-    }
-  end
+  use {
+    "akinsho/flutter-tools.nvim",
+    disable = no_flutter,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("flutter-tools").setup{
+        debugger = {
+          enabled = true,
+        },
+        flutter_path = "/home/michaellee8/.local/lib/flutter/bin/flutter",
+        widget_guides = {
+          enabled = true,
+        },
+      }
+      require("telescope").load_extension("flutter")
+    end
+  }
   
 end)
 
