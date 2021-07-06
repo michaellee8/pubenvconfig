@@ -294,21 +294,21 @@ local on_attach = function(client, bufnr)
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  -- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
@@ -370,10 +370,60 @@ _G.s_tab_complete = function()
   end
 end
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+-- Perform a <silent> <expr> keymap
+local function map_se(mode, lhs, rhs)
+  vim.api.nvim_set_keymap(mode, lfs, rhs, {
+    slient = true,
+    expr = true,
+  })
+end
+
+map_se("i", "<Tab>", "v:lua.tab_complete()")
+map_se("s", "<Tab>", "v:lua.tab_complete()")
+map_se("i", "<S-Tab>", "v:lua.s_tab_complete()")
+map_se("s", "<S-Tab>", "v:lua.s_tab_complete()")
+
+-- Perform a <silent> <expr> <noremap> keymap
+local function map_sen(mode, lhs, rhs)
+  vim.api.nvim_set_keymap(mode, lfs, rhs, {
+    slient = true,
+    expr = true,
+    noremap = true,
+  })
+end
+
+map_sen("i", "<C-Space>", "compe#complete()")
+map_sen("i", "<CR>", [[compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })]])
+map_sen("i", "<C-e>", "compe#close('<C-e>')")
+map_sen("i", "<C-f>", "compe#scroll({ 'delta': +4 })")
+map_sen("i", "<C-d>", "compe#scroll({ 'delta': -4 })")
+
+local function map_telescope(mode, lhs, rhs)
+  vim.api.nvim_set_keymap(mode, lfs, "<cmd>Telescope " .. rhs ,, "<cr>", {
+    noremap = true,
+    silent = true,
+  })
+end
+
+map_telescope("n", "tff", "find_files")
+map_telescope("n", "tf.", "find_files hidden=true")
+map_telescope("n", "tfg", "live_grep")
+map_telescope("n", "tfb", "buffers")
+map_telescope("n", "tfh", "help_tags")
+
+map_telescope("n", "tds", "lsp_document_symbols")
+map_telescope("n", "tws", "lsp_workspace_symbols")
+map_telescope("n", "tdws", "lsp_dynamic_workspace_symbols")
+map_telescope("n", "trca", "lsp_range_code_actions")
+map_telescope("n", "tdd", "lsp_document_diagnostics")
+map_telescope("n", "twd", "lsp_workspace_diagnostics")
+
+map_telescope("n", "gd", "lsp_definitions")
+map_telescope("n", "gi", "lsp_implementations")
+map_telescope("n", "<space>ca", "lsp_code_actions")
+map_telescope("n", "gr", "lsp_references")
+
 
 -- Setting keymap in lua is verbose right now, so I just use VimScript
 vim.cmd([[
@@ -391,6 +441,9 @@ nnoremap <leader>f. <cmd>Telescope find_files hidden=true<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" More Telescope mappings
+nnoremap
 
 ]])
 
