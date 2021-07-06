@@ -406,47 +406,30 @@ local function map_telescope(mode, lhs, rhs)
   })
 end
 
-map_telescope("n", "tff", "find_files")
-map_telescope("n", "tf.", "find_files hidden=true")
-map_telescope("n", "tfg", "live_grep")
-map_telescope("n", "tfb", "buffers")
-map_telescope("n", "tfh", "help_tags")
+local function map_telescope_prefix(mode, lhs, rhs)
+  local prefixes = { "<space>", "<leader>" }
+  for p in prefixes do
+    map_telescope(mode, p .. lhs, rhs)
+  end
+end
 
-map_telescope("n", "tds", "lsp_document_symbols")
-map_telescope("n", "tws", "lsp_workspace_symbols")
-map_telescope("n", "tdws", "lsp_dynamic_workspace_symbols")
-map_telescope("n", "trca", "lsp_range_code_actions")
-map_telescope("n", "tdd", "lsp_document_diagnostics")
-map_telescope("n", "twd", "lsp_workspace_diagnostics")
+map_telescope_prefix("n", "ff", "find_files")
+map_telescope_prefix("n", "f.", "find_files hidden=true")
+map_telescope_prefix("n", "fg", "live_grep")
+map_telescope_prefix("n", "fb", "buffers")
+map_telescope_prefix("n", "fh", "help_tags")
+
+map_telescope_prefix("n", "ds", "lsp_document_symbols")
+map_telescope_prefix("n", "ws", "lsp_workspace_symbols")
+map_telescope_prefix("n", "dws", "lsp_dynamic_workspace_symbols")
+map_telescope_prefix("n", "rca", "lsp_range_code_actions")
+map_telescope_prefix("n", "dd", "lsp_document_diagnostics")
+map_telescope_prefix("n", "wd", "lsp_workspace_diagnostics")
+map_telescope_prefix("n", "ca", "lsp_code_actions")
 
 map_telescope("n", "gd", "lsp_definitions")
 map_telescope("n", "gi", "lsp_implementations")
-map_telescope("n", "<space>ca", "lsp_code_actions")
 map_telescope("n", "gr", "lsp_references")
-
-
--- Setting keymap in lua is verbose right now, so I just use VimScript
-vim.cmd([[
-
-" nvim-compe
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-" Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>f. <cmd>Telescope find_files hidden=true<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" More Telescope mappings
-nnoremap
-
-]])
-
 
 -- symbols-outline.nvim
 
