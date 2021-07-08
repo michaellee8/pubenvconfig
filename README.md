@@ -207,3 +207,4 @@ Useful commands:
 - I have a few scripts to reduce the amount of keystrokes I need to achieve certain commands here, instructions for using my own scripts maybe aviliable for some command here, however they are not open-sourced here since those are customized for my own workflow and would not be useful for others. However it should not be hard to write your own scripts that run the command provided by me.
 - Useful script get getting script parent dir: `SCRIPT_SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"`
 - Disable touchpad while typing: `gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true`
+- To see neovim keymaps, use `cat ~/pubenvconfig/.config/nvim/lua/init/keymap.lua ~/pubenvconfig/.config/nvim/lua/init/lsp/attach.lua | less`.
