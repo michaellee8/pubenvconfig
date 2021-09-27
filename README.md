@@ -62,6 +62,11 @@ local use_custom_config = vim.env.VIM_USE_CUSTOM_CONFIG == "true" or vim.env.VIM
 ```
 
 ```bash
+# There are no neovim 0.5.0 on Ubuntu 20.04 LTS, so better install it with homebrew, also include gh here
+sudo apt install git
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install gh neovim
+
 # Install neovim normally through apt
 sudo apt install neovim
 
@@ -123,8 +128,9 @@ tmux
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Flutter
+mkdir -p $HOME/.local/share/flutter/bin
 git clone https://github.com/flutter/flutter.git -b stable --depth 1
-export PATH="$PATH:`pwd`/flutter/bin"
+export PATH="$PATH:$HOME/.local/share/flutter/bin"
 flutter precache
 
 # Use npm global without root
