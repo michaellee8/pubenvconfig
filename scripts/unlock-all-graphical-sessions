@@ -1,0 +1,2 @@
+loginctl unlock-session $(loginctl list-sessions -o json | jq -r '[ .[] | select(.user == "michaellee8") | select(.tty | contains("tty")) | .session | tonumber ] | @sh')
+
