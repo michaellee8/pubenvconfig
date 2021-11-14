@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/michaellee8/.local/bin/lock-all-graphical-sessions
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_HK]=Auto Lock Graphical Sessions for remote access
+Name=Auto Lock Graphical Sessions for remote access
+Comment[en_HK]=
+Comment=
