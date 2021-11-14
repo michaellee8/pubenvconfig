@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=/home/michaellee8/.local/bin/lock-all-graphical-sessions
+Exec=bash -c 'sleep 5;/home/michaellee8/.local/bin/lock-all-graphical-sessions'
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
