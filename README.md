@@ -129,7 +129,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Flutter
 mkdir -p $HOME/.local/share/flutter/bin
-git clone https://github.com/flutter/flutter.git -b stable --depth 1
+git clone https://github.com/flutter/flutter.git -b stable ~/.local/share/flutter
 export PATH="$PATH:$HOME/.local/share/flutter/bin"
 flutter precache
 
