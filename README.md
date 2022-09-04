@@ -214,3 +214,4 @@ Useful commands:
 - Useful script get getting script parent dir: `SCRIPT_SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"`
 - Disable touchpad while typing: `gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true`
 - To see neovim keymaps, use `cat ~/pubenvconfig/.config/nvim/lua/init/keymap.lua ~/pubenvconfig/.config/nvim/lua/init/lsp/attach.lua | less`.
+- GoLand / Intellij IDEA Go Plugin postfix for errors.Wrap `errors.Wrap($EXPR$, errMsg)`.
